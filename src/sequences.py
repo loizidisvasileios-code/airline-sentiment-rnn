@@ -10,7 +10,7 @@ from src.config import LABEL_COL, MAX_LEN_PERCENTILE, MIN_WORD_COUNT, PAD_IDX, R
 
 
 def encode_labels(df):
-    """Turn the three sentiment names into the integers CrossEntropyLoss expects."""
+    """Turn the three sentiment names into integers."""
     encoder = LabelEncoder()
     df["label"] = encoder.fit_transform(df[LABEL_COL])
     class_names = list(encoder.classes_)
@@ -19,7 +19,7 @@ def encode_labels(df):
 
 
 def split_data(df):
-    """Split 80/10/10 into train, validation and test, preserving the class balance."""
+    """Split 80/10/10 into train, validation and test."""
     train_df, temp_df = train_test_split(
         df, test_size=0.2, random_state=RANDOM_SEED, stratify=df["label"]
     )
@@ -41,14 +41,14 @@ def _build_vocabulary(token_lists):
 
 
 def _encode_sequences(token_lists, vocab, max_len):
-    """Turn token lists into one padded integer matrix, and count what was lost."""
-    matrix = np.full((len(token_lists), max_len), PAD_IDX, dtype=np.int64)  # Pre-filled with padding
+    """Turn token lists into one padded integer matrix."""
+    matrix = np.full((len(token_lists), max_len), PAD_IDX, dtype=np.int64)  
     truncated = 0
     unknown = 0
     total = 0
     for row, tokens in enumerate(token_lists):
         truncated += len(tokens) > max_len
-        for column, token in enumerate(tokens[:max_len]):  # Anything past max_len is dropped
+        for column, token in enumerate(tokens[:max_len]):  
             index = vocab.get(token, UNK_IDX)  # Words absent from the training vocabulary become <unk>
             matrix[row, column] = index
             unknown += index == UNK_IDX
