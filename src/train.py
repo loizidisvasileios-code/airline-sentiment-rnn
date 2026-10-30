@@ -1,4 +1,4 @@
-"""Batching and training, carried over from Exercise 1 with gradient clipping added."""
+"""Batching and training."""
 
 import copy
 

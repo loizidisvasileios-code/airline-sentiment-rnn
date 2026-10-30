@@ -4,7 +4,13 @@ Three-class sentiment classification (negative / neutral / positive) of US airli
 stacked bidirectional LSTM with an attention mechanism.
 
 ## Dataset
-- The Twitter US Airline Sentiment dataset, and the text preprocessing applied to it, come from the previous exercise.
+
+- The Twitter US Airline Sentiment dataset, 14,640 tweets labelled negative, neutral or positive.
+- 436 duplicates removed, leaving 14,204 tweets.
+- Split 80/10/10, stratified: 11,363 train, 1,420 validation, 1,421 test.
+- Cleaning: HTML entities decoded, URLs and `@mentions` removed, contractions expanded so negations
+  survive, digits and emojis dropped, `!` and `?` kept. Duplicates are detected on the cleaned text.
+
 
 
 ## Results
@@ -45,7 +51,7 @@ padding length are derived from the training split.
 
 - `data/raw/Tweets.csv` — the original dataset
 - `src/config.py` — paths, random seed, column names and sequence settings
-- `src/preprocessing.py` — loading, cleaning and tokenization, carried over unchanged
+- `src/preprocessing.py` — loading, cleaning and tokenization
 - `src/sequences.py` — label encoding, splitting, vocabulary and padded sequences
 - `src/model.py` — the bidirectional LSTM with masked attention
 - `src/train.py` — batching and the training loop
